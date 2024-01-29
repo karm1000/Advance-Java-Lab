@@ -11,7 +11,7 @@ public class BookInfoFormPanel extends JPanel{
     LinkedHashMap<String,FieldPanel> fields;
     Book bookInfo;
     DashboardFrame main;
-    ABookPanel currentTarget = null;
+    public ABookPanel currentTarget = null;
     public BookInfoFormPanel(DashboardFrame main){
         super();
         this.main = main;
@@ -41,7 +41,7 @@ public class BookInfoFormPanel extends JPanel{
         this.setVisible(true);
     }
 
-    void setAll(Book book){
+    public void setAll(Book book){
         this.bookInfo = book;
         main.bookInfoPanel.showEdit();
         for(String key:Book.attributeList){
@@ -50,7 +50,7 @@ public class BookInfoFormPanel extends JPanel{
         disableAll();
     }
 
-    void updateBookInfo() {
+    public void updateBookInfo() {
         try{
 
             FieldPanel fpanel;
@@ -83,14 +83,14 @@ public class BookInfoFormPanel extends JPanel{
             i.next().enableTextField();
         }
     }
-    void clearAll(){
+    public void clearAll(){
         Iterator<FieldPanel> i = fields.values().iterator();
         while(i.hasNext()){
             i.next().clearTextField();
         }
     }
 
-    Book addBook(){
+    public Book addBook(){
         bookInfo = new Book();
         try{
             FieldPanel fpanel;

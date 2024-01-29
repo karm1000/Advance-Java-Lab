@@ -1,11 +1,10 @@
 package assignment1.ui;
 
+import assignment1.controller.ABookPanelActions;
 import assignment1.model.Book;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class ABookPanel extends JPanel {
     JPanel container;
@@ -14,13 +13,18 @@ public class ABookPanel extends JPanel {
     JLabel publication;
     JLabel publishingDate;
     JLabel price;
-    Book book;
     JButton removeBook;
+    public Book book;
+    ABookPanelActions actions;
+    DashboardFrame main;
 
     public ABookPanel(Book aBook,DashboardFrame main) {
         super(new BorderLayout());
         this.book = aBook;
+        this.main = main;
         container = new JPanel(new GridBagLayout());
+        actions = new ABookPanelActions(this,main);
+        this.addMouseListener(actions);
 //        container.setBorder(BorderFactory.createLineBorder(Color.black,3));
         GridBagConstraints constraints = new GridBagConstraints();
         init();
@@ -45,29 +49,6 @@ public class ABookPanel extends JPanel {
 
         this.add(removeBook,BorderLayout.EAST);
         this.add(container, BorderLayout.CENTER);
-
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBorder(BorderFactory.createLineBorder(Color.blue,3));
-                setBackground(new Color(151, 198, 255));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBorder(BorderFactory.createLineBorder(Color.black,3));
-                setBackground(Color.white);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount()==2){
-                    main.bookInfoPanel.formPanel.setCurrentTarget(ABookPanel.this);
-                    main.bookInfoPanel.formPanel.setAll(book);
-                    System.out.println(book);
-                }
-            }
-        });
     }
 
     private void init() {
@@ -80,7 +61,7 @@ public class ABookPanel extends JPanel {
         price = new JLabel(String.valueOf(this.book.getPrice()));
     }
 
-    void update(){
+    public void update(){
         bookName.setText(this.book.get(Book.BOOKNAME));
         authorsName.setText(this.book.get(Book.AUTHORNAMES));
         publication.setText(this.book.get(Book.PUBLICATION));

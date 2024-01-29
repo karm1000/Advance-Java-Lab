@@ -1,5 +1,6 @@
 package assignment1.ui;
 
+import assignment1.controller.BookInfoPanelActions;
 import assignment1.model.Book;
 
 import javax.swing.*;
@@ -11,45 +12,37 @@ public class BookInfoPanel extends JPanel {
     private static final String NEW_BTN = "new";
 
     private static final String EDIT_BTN = "edit";
-    BookInfoFormPanel formPanel;
-    CardLayout cardLayout;
-    JPanel btnPanel;
-    JButton addBtn;
-    JButton updateBtn;
-    JButton editBtn;
-    JButton newBtn;
+    public BookInfoFormPanel formPanel;
+    public CardLayout cardLayout;
+    public JPanel btnPanel;
+    public JButton addBtn;
+    public JButton updateBtn;
+    public JButton editBtn;
+    public JButton newBtn;
+    public DashboardFrame main;
+    BookInfoPanelActions actions;
     BookInfoPanel(DashboardFrame main){
         super();
+        this.main = main;
+        actions = new BookInfoPanelActions(this);
         Dimension btnSize = new Dimension(200,50);
 
         addBtn = new JButton("Add Book");
-        addBtn.addActionListener(e -> {
-//            System.out.println("Someting");
-            Book aBook = formPanel.addBook();
-            main.allBooksPanel.addBook(aBook);
-            showEdit();
-        });
+        addBtn.addActionListener(actions);
 
         updateBtn = new JButton("Update Book");
-        updateBtn.addActionListener(e -> {
-            formPanel.updateBookInfo();
-            formPanel.currentTarget.update();
-            main.library.update();
-            showEdit();
-        });
+        updateBtn.addActionListener(actions);
 
         editBtn = new JButton("Edit");
-        editBtn.addActionListener(e -> showUpdate());
+        editBtn.addActionListener(actions);
 
         newBtn = new JButton("New Book");
         newBtn.setPreferredSize(btnSize);
-        newBtn.addActionListener(e -> {
-            formPanel.clearAll();
-            showAdd();
-        });
+        newBtn.addActionListener(actions);
 
 
         cardLayout = new CardLayout();
+
         btnPanel = new JPanel(cardLayout);
         btnPanel.setPreferredSize(btnSize);
         btnPanel.add(updateBtn,UPDATE_BTN);

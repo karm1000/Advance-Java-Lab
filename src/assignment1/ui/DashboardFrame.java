@@ -7,9 +7,9 @@ import java.awt.*;
 import java.io.IOException;
 
 public class DashboardFrame extends BookStoreFrame {
-    AllBooksPanel allBooksPanel;
-    BookInfoPanel bookInfoPanel;
-    DataBooksLibrary library = new DataBooksLibrary();
+    public AllBooksPanel allBooksPanel;
+    public BookInfoPanel bookInfoPanel;
+    public DataBooksLibrary library = new DataBooksLibrary();
     DashboardFrame() throws IOException {
         super();
         init();
