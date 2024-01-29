@@ -5,10 +5,12 @@ import assignment1.ui.DashboardFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ABookPanelActions extends MouseAdapter {
+public class ABookPanelActions extends MouseAdapter implements ActionListener {
     ABookPanel ref;
     DashboardFrame main;
 
@@ -20,22 +22,31 @@ public class ABookPanelActions extends MouseAdapter {
     @Override
     public void mouseEntered(MouseEvent e) {
         System.out.println(11);
-        ref.setBorder(BorderFactory.createLineBorder(Color.blue,3));
-        ref.setBackground(new Color(151, 198, 255));
+        ref.setBorder(BorderFactory.createLineBorder(Color.red,2));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        ref.setBorder(BorderFactory.createLineBorder(Color.black,3));
-        ref.setBackground(Color.white);
+        ref.setBorder(BorderFactory.createLineBorder(Color.black,2));
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getClickCount()==2){
-            main.bookInfoPanel.formPanel.setCurrentTarget(ref);
-            main.bookInfoPanel.formPanel.setAll(ref.book);
-            System.out.println(ref.book);
+        if(e.getSource()==ref){
+            if(e.getClickCount()==2){
+                main.bookInfoPanel.formPanel.setCurrentTarget(ref);
+                main.bookInfoPanel.formPanel.setAll(ref.book);
+                System.out.println(ref.book);
+            }
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==ref.removeBook){
+            main.library.removeBook(ref.book);
+            System.out.println(main.library.getAllBooks());
+            main.allBooksPanel.removeBook(ref.book);
         }
     }
 }

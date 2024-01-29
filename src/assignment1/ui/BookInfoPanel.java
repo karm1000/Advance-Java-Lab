@@ -59,6 +59,8 @@ public class BookInfoPanel extends JPanel {
         this.add(btnPanel,BorderLayout.SOUTH);
         this.add(newBtn,BorderLayout.NORTH);
 
+        showAdd();
+
         this.setVisible(true);
     }
 

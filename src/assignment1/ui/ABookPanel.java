@@ -13,7 +13,8 @@ public class ABookPanel extends JPanel {
     JLabel publication;
     JLabel publishingDate;
     JLabel price;
-    JButton removeBook;
+    public JPanel optionPanel;
+    public JButton removeBook;
     public Book book;
     ABookPanelActions actions;
     DashboardFrame main;
@@ -24,6 +25,7 @@ public class ABookPanel extends JPanel {
         this.main = main;
         container = new JPanel(new GridBagLayout());
         actions = new ABookPanelActions(this,main);
+        optionPanel = new JPanel(new GridBagLayout());
         this.addMouseListener(actions);
 //        container.setBorder(BorderFactory.createLineBorder(Color.black,3));
         GridBagConstraints constraints = new GridBagConstraints();
@@ -38,16 +40,19 @@ public class ABookPanel extends JPanel {
         container.setOpaque(false);
         this.setMaximumSize(new Dimension(1000,125));
         this.setPreferredSize(new Dimension(1000, 125)); // Adjust the preferred size as needed
-        this.setBorder(BorderFactory.createLineBorder(Color.black,3));
+        this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 
         removeBook = new JButton("Delete");
-        removeBook.setPreferredSize(new Dimension(100,50));
-        removeBook.addActionListener(e->{
-            main.library.removeBook(book);
-            main.allBooksPanel.update();
-        });
+        removeBook.setPreferredSize(new Dimension(100,30));
+        removeBook.addActionListener(actions);
 
-        this.add(removeBook,BorderLayout.EAST);
+        optionPanel.setBackground(Color.white);
+        optionPanel.setPreferredSize(new Dimension(100,125));
+        optionPanel.setOpaque(false);
+        optionPanel.add(removeBook);
+
+        this.setBackground(Color.white);
+        this.add(optionPanel,BorderLayout.EAST);
         this.add(container, BorderLayout.CENTER);
     }
 
@@ -76,5 +81,13 @@ public class ABookPanel extends JPanel {
         constraints.gridy = gridy;
         constraints.gridwidth = GridBagConstraints.REMAINDER; // Span across all columns
         return constraints;
+    }
+
+    @Override
+    public String toString() {
+        return "ABookPanel{" +
+                "book=" + book +
+                ", super="+super.toString()+
+                '}';
     }
 }

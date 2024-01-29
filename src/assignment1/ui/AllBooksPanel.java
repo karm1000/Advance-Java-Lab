@@ -7,6 +7,8 @@ import assignment1.util.DataBooksLibrary;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -17,9 +19,9 @@ public class AllBooksPanel extends JPanel {
     JScrollBar scrollBar;
     DataBooksLibrary library;
     DashboardFrame main;
-    HashSet<Book> set = new HashSet<Book>();
+    HashMap<Book,ABookPanel> map = new HashMap();
     JLabel noBooksLabel = new JLabel("No Books!");
-    int lastLength = 0;
+    int length = 0;
 
     public AllBooksPanel(DashboardFrame main){
         super();
@@ -37,8 +39,8 @@ public class AllBooksPanel extends JPanel {
 
         try{
             renderBooks();
-            lastLength = library.getAllBooks().size();
-            System.out.println(10);
+            length = library.getAllBooks().size();
+//            System.out.println(10);
     //        for(int i=0;i<10;i++){
     //            booksContainer.add(new ABookPanel(new Book("A Book"+i,"An Author","A Publication" ,ZonedDateTime.now(),10),main));
     //            booksContainer.add(Box.createVerticalStrut(10));
@@ -68,7 +70,7 @@ public class AllBooksPanel extends JPanel {
         }else{
             library.getAllBooks().forEach(book -> {
                 ABookPanel aBookPanel = new ABookPanel(book,main);
-                set.add(book);
+                map.put(book,aBookPanel);
                 booksContainer.add(aBookPanel);
                 booksContainer.add(Box.createVerticalStrut(10));
             });
@@ -76,36 +78,47 @@ public class AllBooksPanel extends JPanel {
     }
 
     public void update(){
-        if(lastLength==0){
+        if(length==0){
             booksContainer.remove(noBooksLabel);
             renderBooks();
-            lastLength = library.getAllBooks().size();
+            length = library.getAllBooks().size();
             return;
         }
-        if(lastLength!=library.getAllBooks().size()){
+        if(length!=library.getAllBooks().size()){
             Iterator<Book> i = library.getIterator();
             while(i.hasNext()){
                 Book book = i.next();
-                if(!set.contains(book)){
-                    set.add(book);
-                    booksContainer.add(new ABookPanel(book,main));
+                if(!map.containsKey(book)){
+                    ABookPanel aBookPanel = new ABookPanel(book,main);
+                    map.put(book,aBookPanel);
+                    booksContainer.add(aBookPanel);
                     booksContainer.add(Box.createVerticalStrut(10));
                 }
             }
-            lastLength = library.getAllBooks().size();
+            length = library.getAllBooks().size();
         }
     }
     public void addBook(Book book){
-        if(lastLength==0){
+        if(length==0){
             booksContainer.remove(noBooksLabel);
+            booksContainer.repaint();
         }
-        lastLength = library.getAllBooks().size();
-        booksContainer.add(new ABookPanel(book,main));
+        length++;
+        ABookPanel aBookPanel = new ABookPanel(book,main);
+        map.put(book,aBookPanel);
+        booksContainer.add(aBookPanel);
         booksContainer.add(Box.createVerticalStrut(10));
     }
 
-    public void remove(Book book){
-
+    public void removeBook(Book book){
+//        System.out.println(map.get(book));
+        length--;
+        booksContainer.remove(map.get(book));
+        map.remove(book);
+        if(length==0){
+            booksContainer.add(noBooksLabel);
+        }
+        booksContainer.repaint();
     }
 
 }
