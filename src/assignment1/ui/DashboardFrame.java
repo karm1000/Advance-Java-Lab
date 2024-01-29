@@ -19,7 +19,7 @@ public class DashboardFrame extends BookStoreFrame {
     private void init(){
         this.allBooksPanel = new AllBooksPanel(this);
         this.bookInfoPanel = new BookInfoPanel(this);
-        this.setLayout(new BorderLayout(10,10));
+        this.setLayout(new BorderLayout(2,2));
         this.add(allBooksPanel,BorderLayout.CENTER);
         this.add(bookInfoPanel,BorderLayout.EAST);
     }
