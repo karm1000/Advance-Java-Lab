@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class Book implements Serializable {
+public class Book implements Serializable, Comparable<Book> {
     private String bookId = "";
     private String bookName = "";
     private List<String> authorNames = new ArrayList<>();
@@ -159,5 +159,10 @@ public class Book implements Serializable {
                 ", dateOfPublication=" + dateOfPublication +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.bookName.compareTo(o.getBookName());
     }
 }

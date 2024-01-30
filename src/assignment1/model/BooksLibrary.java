@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.*;
 
 public class BooksLibrary implements Serializable,BasicLibrary {
-    HashSet<Book> library;
+    TreeSet<Book> library;
     public BooksLibrary(){
-        library = new HashSet<>();
+        library = new TreeSet<>();
     }
-    public BooksLibrary(HashSet<Book> library){
+    public BooksLibrary(TreeSet<Book> library){
         this.library = library;
     }
 
@@ -47,7 +47,7 @@ public class BooksLibrary implements Serializable,BasicLibrary {
                 '}';
     }
 
-    public HashSet<Book> getLibrary() {
+    public TreeSet<Book> getLibrary() {
         return library;
     }
 }

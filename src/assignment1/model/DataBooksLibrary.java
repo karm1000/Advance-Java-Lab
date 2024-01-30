@@ -1,4 +1,4 @@
-package assignment1.util;
+package assignment1.model;
 
 import assignment1.model.BasicLibrary;
 import assignment1.model.Book;
@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 public class DataBooksLibrary implements BasicLibrary {
 
@@ -21,7 +22,7 @@ public class DataBooksLibrary implements BasicLibrary {
             if(dataFile.exists()){
                 try (FileInputStream fileInputStream = new FileInputStream(dataFile);
                      ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                    HashSet<Book> set =  (HashSet<Book>) objectInputStream.readObject();
+                    TreeSet<Book> set =  new TreeSet<>((TreeSet<Book>) objectInputStream.readObject());
                     this.data = new BooksLibrary(set);
                     System.out.println(data);
 

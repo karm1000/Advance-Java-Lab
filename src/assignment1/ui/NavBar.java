@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class NavBar extends JPanel {
-    SearchBar searchBar = new SearchBar();
-    NavBar(JComponent component){
+    SearchBar searchBar;
+    NavBar(JComponent component,DashboardFrame main){
         super(new GridBagLayout());
+        this.searchBar = new SearchBar(main);
         this.setBackground(Color.gray);
         this.setPreferredSize(new Dimension(component.getWidth(),50));
         JPanel panel = new JPanel(new BorderLayout(5,5));

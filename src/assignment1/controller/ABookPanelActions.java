@@ -21,8 +21,8 @@ public class ABookPanelActions extends MouseAdapter implements ActionListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println(11);
-        ref.setBorder(BorderFactory.createLineBorder(Color.red,2));
+//        System.out.println(11);
+        ref.setBorder(BorderFactory.createLineBorder(Color.blue,2));
     }
 
     @Override

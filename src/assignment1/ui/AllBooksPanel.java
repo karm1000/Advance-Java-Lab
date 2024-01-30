@@ -1,16 +1,18 @@
 package assignment1.ui;
 
 import assignment1.model.Book;
-import assignment1.model.BooksLibrary;
-import assignment1.util.DataBooksLibrary;
+import assignment1.model.DataBooksLibrary;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AllBooksPanel extends JPanel {
     NavBar navBar;
@@ -18,8 +20,9 @@ public class AllBooksPanel extends JPanel {
     JPanel booksContainer;
     JScrollBar scrollBar;
     DataBooksLibrary library;
+
     DashboardFrame main;
-    HashMap<Book,ABookPanel> map = new HashMap();
+    LinkedHashMap<Book,ABookPanel> map = new LinkedHashMap<>();
     JLabel noBooksLabel = new JLabel("No Books!");
     int length = 0;
 
@@ -38,8 +41,7 @@ public class AllBooksPanel extends JPanel {
         booksContainer.setBorder(new EmptyBorder(10,10,10,10));
 
         try{
-            renderBooks();
-            length = library.getAllBooks().size();
+            renderAll();
 //            System.out.println(10);
     //        for(int i=0;i<10;i++){
     //            booksContainer.add(new ABookPanel(new Book("A Book"+i,"An Author","A Publication" ,ZonedDateTime.now(),10),main));
@@ -58,23 +60,25 @@ public class AllBooksPanel extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(15);
         scrollPane.getVerticalScrollBar().setSize(10,10);
 
-        navBar = new NavBar(this);
+        navBar = new NavBar(this,main);
 
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(navBar, BorderLayout.NORTH);
     }
 
     public void renderBooks(){
-        if(library.getAllBooks().isEmpty()){
+        if(map.isEmpty()){
             booksContainer.add(noBooksLabel);
         }else{
-            library.getAllBooks().forEach(book -> {
-                ABookPanel aBookPanel = new ABookPanel(book,main);
-                map.put(book,aBookPanel);
-                booksContainer.add(aBookPanel);
+
+            for(ABookPanel panel:map.values()){
+                booksContainer.add(panel);
                 booksContainer.add(Box.createVerticalStrut(10));
-            });
+            }
         }
+        booksContainer.repaint();
+        booksContainer.revalidate();
+
     }
 
     public void update(){
@@ -98,16 +102,22 @@ public class AllBooksPanel extends JPanel {
             length = library.getAllBooks().size();
         }
     }
-    public void addBook(Book book){
-        if(length==0){
-            booksContainer.remove(noBooksLabel);
-            booksContainer.repaint();
+
+    public void renderAll(){
+        map.clear();
+        booksContainer.removeAll();
+        for(Book book:library.getAllBooks()){
+            map.put(book, new ABookPanel(book,main));
         }
-        length++;
+        renderBooks();
+        length = map.size();
+    }
+
+    public void addBook(Book book){
+
         ABookPanel aBookPanel = new ABookPanel(book,main);
         map.put(book,aBookPanel);
-        booksContainer.add(aBookPanel);
-        booksContainer.add(Box.createVerticalStrut(10));
+        renderAll();
     }
 
     public void removeBook(Book book){
@@ -119,6 +129,113 @@ public class AllBooksPanel extends JPanel {
             booksContainer.add(noBooksLabel);
         }
         booksContainer.repaint();
+    }
+
+    public void filterBy(HashMap<String,String> queries){
+        List<Book> filteredBooks = library.getAllBooks();
+        for(Map.Entry<String,String> entry:queries.entrySet()){
+            String key = entry.getKey();
+            String val = entry.getValue();
+            System.out.println(key+val);
+            if(key=="-"){
+                filteredBooks = filteredBooks.stream().filter(book -> {
+                    return book.getBookName().contains(val) || val.contains(book.getBookName());
+                }).collect(Collectors.toList());
+            }else {
+
+                String op = key.substring(key.length() - 3).trim();
+                key = key.substring(0, key.length() - 3);
+                System.out.println("-"+op+"-");
+                String finalKey = key;
+                filteredBooks = filteredBooks.stream().filter(book -> {
+
+                    System.out.println("- - -"+book);
+//                    System.out.println(finalKey+" and "+op+"=");
+
+                        if(op.equals("=")){
+                            System.out.println("--------=");
+                            if (finalKey.equals(Book.PRICE)) {
+                                return (int) book.getPrice() == (int) Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                return Objects.equals(book.getDateOfPublication(true), val);
+                            }
+                            return book.get(finalKey).toLowerCase().contains(val.toLowerCase()) || val.toLowerCase().contains(book.get(finalKey).toLowerCase());
+
+                        }
+
+                        else if(op.equals("!=")){
+                            System.out.println("--------!=");
+                            if (finalKey.equals(Book.PRICE)) {
+                                return (int) book.getPrice() != (int) Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                return !Objects.equals(book.getDateOfPublication(true), val);
+                            }
+                            return !(book.get(finalKey).toLowerCase().contains(val.toLowerCase()) || val.toLowerCase().contains(book.get(finalKey).toLowerCase()));
+
+                        }
+
+                        else if(op.equals(">")){
+                            System.out.println("-------->");
+                            System.out.println("--------------"+book.getPrice() + " , "+val);
+                            if (finalKey.equals(Book.PRICE)) {
+                                return book.getPrice() > Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                return book.getDateOfPublication().isAfter(LocalDate.parse(val, DateTimeFormatter.ofPattern("dd-MM-yyyy")).atStartOfDay(ZoneId.systemDefault()));
+                            }
+                            return book.get(finalKey).compareTo(val) > 0;
+
+                        }
+                        else if(op.equals(">=")){
+                            System.out.println("-------->=");
+                            if (finalKey.equals(Book.PRICE)) {
+                                return book.getPrice() >= Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                ZonedDateTime date = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd-MM-yyyy")).atStartOfDay(ZoneId.systemDefault());
+                                return book.getDateOfPublication().equals(date) || book.getDateOfPublication().isAfter(date);
+                            }
+                            return book.get(finalKey).compareTo(val) >= 0;
+
+                        }
+                        else if(op.equals("<")){
+                            System.out.println("--------<");
+                            if (finalKey.equals(Book.PRICE)) {
+                                return book.getPrice() < Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                ZonedDateTime date = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd-MM-yyyy")).atStartOfDay(ZoneId.systemDefault());
+                                return book.getDateOfPublication().isBefore(date);
+                            }
+                            return book.get(finalKey).compareTo(val) < 0;
+
+                        }
+                        else if(op.equals("<=")){
+                            System.out.println("--------<=");
+                            if (finalKey.equals(Book.PRICE)) {
+                                return book.getPrice() <= Float.parseFloat(val);
+                            } else if (finalKey.equals(Book.DATEOFPUBLICATION)) {
+                                ZonedDateTime date = LocalDate.parse(val, DateTimeFormatter.ofPattern("dd-MM-yyyy")).atStartOfDay(ZoneId.systemDefault());
+                                return book.getDateOfPublication().equals(date) || book.getDateOfPublication().isBefore(date);
+                            }
+
+                            return book.get(finalKey).compareTo(val) <= 0;
+
+                        }
+
+                    return true;
+
+                }).collect(Collectors.toList());
+
+            }
+        }
+
+        booksContainer.removeAll();
+        map = new LinkedHashMap<>();
+        Iterator<Book> i = filteredBooks.iterator();
+        while(i.hasNext()){
+            Book b = i.next();
+            System.out.println(b);
+            map.put(b,new ABookPanel(b,main));
+        }
+        renderBooks();
     }
 
 }
