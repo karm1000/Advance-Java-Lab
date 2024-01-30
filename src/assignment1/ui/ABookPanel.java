@@ -2,6 +2,7 @@ package assignment1.ui;
 
 import assignment1.controller.ABookPanelActions;
 import assignment1.model.Book;
+import assignment1.util.FormatAttributeName;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ public class ABookPanel extends JPanel {
     JPanel container;
     JLabel bookName;
     JLabel authorsName;
+    JLabel description;
     JLabel publication;
     JLabel publishingDate;
     JLabel price;
@@ -33,9 +35,10 @@ public class ABookPanel extends JPanel {
 
         container.add(bookName,getConstraints(constraints,0,0));
         container.add(authorsName,getConstraints(constraints,0,1));
-        container.add(publication,getConstraints(constraints,0,2));
-        container.add(publishingDate,getConstraints(constraints,0,3));
-        container.add(price,getConstraints(constraints,0,4));
+        container.add(description,getConstraints(constraints,0,2));
+        container.add(publication,getConstraints(constraints,0,3));
+        container.add(publishingDate,getConstraints(constraints,0,4));
+        container.add(price,getConstraints(constraints,0,5));
 
         container.setOpaque(false);
         this.setMaximumSize(new Dimension(1000,125));
@@ -57,18 +60,20 @@ public class ABookPanel extends JPanel {
     }
 
     private void init() {
-        bookName = new JLabel(this.book.getBookName());
+        bookName = new JLabel(FormatAttributeName.formatAttribute(Book.BOOKNAME)+ " : " +this.book.getBookName());
         bookName.setFont(new Font("Arial", Font.BOLD, 20));
+        description = new JLabel(FormatAttributeName.formatAttribute(Book.DESCRIPTION)+ " : " +this.book.getDescription());
 //        bookName.setBorder(BorderFactory.createLineBorder(Color.pink));
-        authorsName = new JLabel(String.join(", ", this.book.getAuthorNames()));
-        publication = new JLabel(this.book.getPublication());
-        publishingDate = new JLabel(String.valueOf(this.book.getDateOfPublication(true)));
-        price = new JLabel(String.valueOf(this.book.getPrice()));
+        authorsName = new JLabel(FormatAttributeName.formatAttribute(Book.AUTHORNAMES)+ " : " +String.join(", ", this.book.getAuthorNames()));
+        publication = new JLabel(FormatAttributeName.formatAttribute(Book.PUBLICATION)+ " : " +this.book.getPublication());
+        publishingDate = new JLabel(FormatAttributeName.formatAttribute(Book.DATEOFPUBLICATION) + " : " + this.book.getDateOfPublication(true));
+        price = new JLabel(FormatAttributeName.formatAttribute(Book.PRICE)+ " : " +String.valueOf(this.book.getPrice()));
     }
 
     public void update(){
         bookName.setText(this.book.get(Book.BOOKNAME));
         authorsName.setText(this.book.get(Book.AUTHORNAMES));
+        description.setText(this.book.get(Book.DESCRIPTION));
         publication.setText(this.book.get(Book.PUBLICATION));
         publishingDate.setText(this.book.get(Book.DATEOFPUBLICATION));
         price.setText(this.book.get(Book.PRICE));

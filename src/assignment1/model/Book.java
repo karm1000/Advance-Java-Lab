@@ -12,15 +12,18 @@ public class Book implements Serializable, Comparable<Book> {
     private String bookId = "";
     private String bookName = "";
     private List<String> authorNames = new ArrayList<>();
+    private String description = "";
     private String publication = "";
     private ZonedDateTime dateOfPublication = ZonedDateTime.now();
     private float price = 0.0f;
     public static final String BOOKNAME = "bookName";
     public static final String AUTHORNAMES = "authorNames";
+    public static final String DESCRIPTION = "description";
+
     public static final String PUBLICATION = "publication";
     public static final String DATEOFPUBLICATION = "dateOfPublication";
     public static final String PRICE = "price";
-    public static final String[] attributeList = {BOOKNAME,AUTHORNAMES,PUBLICATION,DATEOFPUBLICATION,PRICE};
+    public static final String[] attributeList = {BOOKNAME,AUTHORNAMES,DESCRIPTION,PUBLICATION,DATEOFPUBLICATION,PRICE};
     private HashMap<String,String> map = new HashMap<>();
     public Book(){
 
@@ -74,6 +77,11 @@ public class Book implements Serializable, Comparable<Book> {
         }
         setAuthorNames(names);
     }
+
+    public void setDescription(String description){
+        this.description = description;
+        map.put(DESCRIPTION,description);
+    }
     public void setPublication(String publication) {
         this.publication = publication;
         map.put(PUBLICATION,publication);
@@ -117,6 +125,9 @@ public class Book implements Serializable, Comparable<Book> {
             case AUTHORNAMES -> {
                 setAuthorNames(value);
             }
+            case DESCRIPTION -> {
+                setDescription(value);
+            }
         }
     }
     public String getBookName() {
@@ -124,6 +135,9 @@ public class Book implements Serializable, Comparable<Book> {
     }
     public String[] getAuthorNames() {
         return authorNames.toArray(new String[0]);
+    }
+    public String getDescription(){
+        return description;
     }
 
     public String getAuthorNamesConcatenate(){

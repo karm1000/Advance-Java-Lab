@@ -1,6 +1,7 @@
 package assignment1.ui;
 
 import assignment1.model.Book;
+import assignment1.util.FormatAttributeName;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,10 +22,12 @@ public class BookInfoFormPanel extends JPanel{
 //        this.setLayout(new GridLayout(Book.attributeList.length, 1,10,10));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
         this.setPreferredSize(new Dimension(main.getWidth(),this.getPreferredSize().height));
         fields = new LinkedHashMap<>();
         for(String key:Book.attributeList){
-            fields.put(key,new FieldPanel(key,this));
+            fields.put(key,new FieldPanel(FormatAttributeName.formatAttribute(key),this));
         }
 
         Iterator<FieldPanel> iterator = fields.values().iterator();
@@ -37,7 +40,7 @@ public class BookInfoFormPanel extends JPanel{
         while(iterator.hasNext()){
             this.add(iterator.next(),getConstraints(gbc,0,j++));
         }
-
+        this.setBackground(Color.white);
         this.setVisible(true);
     }
 
@@ -102,7 +105,7 @@ public class BookInfoFormPanel extends JPanel{
             System.out.println(e);
         }
         main.library.addBook(bookInfo);
-        System.out.println(bookInfo);
+//        System.out.println(bookInfo);
         return bookInfo;
     }
 

@@ -139,7 +139,10 @@ public class AllBooksPanel extends JPanel {
             System.out.println(key+val);
             if(key=="-"){
                 filteredBooks = filteredBooks.stream().filter(book -> {
-                    return book.getBookName().contains(val) || val.contains(book.getBookName());
+                    String bn1 = book.getBookName().toLowerCase();
+                    String a = book.getAuthorNamesConcatenate().toLowerCase();
+                    String v1 = val.toLowerCase();
+                    return bn1.contains(v1) || v1.contains(bn1) || a.contains(v1);
                 }).collect(Collectors.toList());
             }else {
 
