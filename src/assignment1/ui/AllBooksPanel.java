@@ -1,7 +1,9 @@
 package assignment1.ui;
 
 import assignment1.model.Book;
-import assignment1.model.DataBooksLibrary;
+import assignment1.model.BooksLibrary;
+import assignment1.model.FileIO;
+//import assignment1.model.DataBooksLibrary;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +21,7 @@ public class AllBooksPanel extends JPanel {
     JScrollPane scrollPane;
     JPanel booksContainer;
     JScrollBar scrollBar;
-    DataBooksLibrary library;
+    FileIO library;
 
     DashboardFrame main;
     LinkedHashMap<Book,ABookPanel> map = new LinkedHashMap<>();

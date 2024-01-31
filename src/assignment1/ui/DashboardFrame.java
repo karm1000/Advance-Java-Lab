@@ -1,6 +1,8 @@
 package assignment1.ui;
 
-import assignment1.model.DataBooksLibrary;
+import assignment1.model.BooksLibrary;
+import assignment1.model.FileIO;
+//import assignment1.model.DataBooksLibrary;
 
 import java.awt.*;
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.io.IOException;
 public class DashboardFrame extends BookStoreFrame {
     public AllBooksPanel allBooksPanel;
     public BookInfoPanel bookInfoPanel;
-    public DataBooksLibrary library = new DataBooksLibrary();
+    public FileIO library;
     DashboardFrame() throws IOException {
         super();
         init();
@@ -16,6 +18,11 @@ public class DashboardFrame extends BookStoreFrame {
     }
 
     private void init(){
+        try{
+            this.library = new BooksLibrary();
+        }catch (IOException e){
+            System.out.println(e);
+        }
         this.allBooksPanel = new AllBooksPanel(this);
         this.bookInfoPanel = new BookInfoPanel(this);
         this.setLayout(new BorderLayout(2,2));
