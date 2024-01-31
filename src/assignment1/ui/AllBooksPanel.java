@@ -148,7 +148,7 @@ public class AllBooksPanel extends JPanel {
 
                 String op = key.substring(key.length() - 3).trim();
                 key = key.substring(0, key.length() - 3);
-                System.out.println("-"+op+"-");
+                System.out.println(key+"-"+op+"-");
                 String finalKey = key;
                 filteredBooks = filteredBooks.stream().filter(book -> {
 
