@@ -1,35 +1,34 @@
 package assignment1.model;
 
 
-import com.sun.source.tree.Tree;
-
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.TreeSet;
+import java.util.*;
 
-public abstract class FileIO implements BasicLibrary {
-    File dataFile;
-    TreeSet<Book> data;
+public class FileIO implements DataStore {
+//    File dataFile = "src/assignment1/data/Library.dat";
+    File dataFile  = new File("src/assignment1/data/Library.dat");;
+    TreeSet<Book> data = new TreeSet<>();
+    public FileIO(){init();}
 
-    public FileIO() throws IOException {
+    public FileIO(String filename){
+        dataFile = new File("src/assignment1/data/"+filename);
+        init();
+    }
+    public void init(){
         try {
-            dataFile = new File("src/assignment1/data/Library.dat");
             if(dataFile.exists()){
                 try (FileInputStream fileInputStream = new FileInputStream(dataFile);
                      ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                    TreeSet<Book> set =  new TreeSet<Book>((TreeSet<Book>) objectInputStream.readObject());
-                    this.data = new TreeSet<>(set);
+                    TreeSet<Book> set =  new TreeSet<>((TreeSet<Book>) objectInputStream.readObject());
+                    this.data.addAll(set);
                     System.out.println(data);
 
                 }catch (EOFException e){
-                    this.data = new TreeSet<>();
                     System.out.println(e);
                     System.out.println("-----");
                 }
             }else{
                 dataFile.createNewFile();
-                this.data = new TreeSet<>();
             }
         }catch (Exception e){
             System.out.println(e);
@@ -37,46 +36,14 @@ public abstract class FileIO implements BasicLibrary {
         }
     }
 
-     public void addBook(Book book) {
-        add(book);
-        writeIntoFile();
+    public TreeSet<Book> getData(){
+        return data;
     }
-
-    public void addAllBooks(Book[] books) {
-        addAll(books);
-        writeIntoFile();
-    }
-
-    public void addAllBooks(Collection<Book> books) {
-        addAll(books);
-        writeIntoFile();
-    }
-
-    public void removeBook(Book book) {
-        remove(book);
-        writeIntoFile();
-    }
-
-    public void removeAllBooks() {
-        removeAll();
-        writeIntoFile();
-    }
-
-    public void removeAllBooks(Book[] books) {
-        removeAll(books);
-        writeIntoFile();
-    }
-
-    public void removeAllBooks(Collection<Book> books) {
-        removeAll(books);
-        writeIntoFile();
-    }
-
     public void update(){
         writeIntoFile();
     }
 
-    private void writeIntoFile(){
+    public void writeIntoFile(){
         try(FileOutputStream fos = new FileOutputStream(dataFile);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
         ) {
@@ -87,6 +54,4 @@ public abstract class FileIO implements BasicLibrary {
             throw new RuntimeException(e);
         }
     }
-
-
 }

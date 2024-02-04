@@ -23,7 +23,7 @@ public class SearchActions implements ActionListener, DocumentListener {
     public void actionPerformed(ActionEvent e) {
         HashMap<String,String> map = searchBar.getSearch();
         if(map.size()!=0){
-            main.allBooksPanel.filterBy(map);
+            main.allBooksPanel.filterBooks(map);
         }
         else{
             main.allBooksPanel.renderAll();

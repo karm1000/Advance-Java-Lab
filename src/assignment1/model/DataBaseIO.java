@@ -12,9 +12,9 @@
 //import java.util.Arrays;
 //import java.util.TreeSet;
 //
-//public abstract class DataBaseIO implements BasicLibrary {
-//    TreeSet<Book> data;
-//    private Connection con;
+//public interface DataBaseIO extends BasicLibrary, DataStore {
+//    TreeSet<Book> data = null;
+//    Connection con;
 //    DataBaseIO(TreeSet<Book> data){
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");

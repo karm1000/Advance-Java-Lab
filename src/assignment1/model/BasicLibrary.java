@@ -1,23 +1,21 @@
 package assignment1.model;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public interface BasicLibrary {
 
-    void add(Book book);
-    void addAll(Book[] books);
-    void addAll(Collection<Book> books);
-    void remove(Book book);
-    void removeAll();
-    void removeAll(Book[] books);
-    void removeAll(Collection<Book> books);
+    void addBook(Book book);
+    void addAllBooks(Book[] books);
+    void addAllBooks(Collection<Book> books);
+    void removeBook(Book book);
+    void removeAllBooks();
+    void removeAllBooks(Book[] books);
+    void removeAllBooks(Collection<Book> books);
     List<Book> getAllBooks();
 
     Iterator<Book> getIterator();
     TreeSet<Book> getLibrary();
+    List<Book> filterBy(HashMap<String,String> queries);
 
 
 }

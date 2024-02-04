@@ -60,23 +60,24 @@ public class ABookPanel extends JPanel {
     }
 
     private void init() {
-        bookName = new JLabel(FormatAttributeName.formatAttribute(Book.BOOKNAME)+ " : " +this.book.getBookName());
+        bookName = new JLabel();
         bookName.setFont(new Font("Arial", Font.BOLD, 20));
-        description = new JLabel(FormatAttributeName.formatAttribute(Book.DESCRIPTION)+ " : " +this.book.getDescription());
+        description = new JLabel();
 //        bookName.setBorder(BorderFactory.createLineBorder(Color.pink));
-        authorsName = new JLabel(FormatAttributeName.formatAttribute(Book.AUTHORNAMES)+ " : " +String.join(", ", this.book.getAuthorNames()));
-        publication = new JLabel(FormatAttributeName.formatAttribute(Book.PUBLICATION)+ " : " +this.book.getPublication());
-        publishingDate = new JLabel(FormatAttributeName.formatAttribute(Book.DATEOFPUBLICATION) + " : " + this.book.getDateOfPublication(true));
-        price = new JLabel(FormatAttributeName.formatAttribute(Book.PRICE)+ " : " +String.valueOf(this.book.getPrice()));
+        authorsName = new JLabel();
+        publication = new JLabel();
+        publishingDate = new JLabel();
+        price = new JLabel();
+        render();
     }
 
-    public void update(){
-        bookName.setText(this.book.get(Book.BOOKNAME));
-        authorsName.setText(this.book.get(Book.AUTHORNAMES));
-        description.setText(this.book.get(Book.DESCRIPTION));
-        publication.setText(this.book.get(Book.PUBLICATION));
-        publishingDate.setText(this.book.get(Book.DATEOFPUBLICATION));
-        price.setText(this.book.get(Book.PRICE));
+    public void render(){
+        bookName.setText(FormatAttributeName.formatAttribute(Book.BOOKNAME)+ " : " +this.book.getBookName());
+        authorsName.setText(FormatAttributeName.formatAttribute(Book.AUTHORNAMES)+ " : " +this.book.getAuthorNamesConcatenate());
+        description.setText(FormatAttributeName.formatAttribute(Book.DESCRIPTION)+ " : " +this.book.getDescription());
+        publication.setText(FormatAttributeName.formatAttribute(Book.PUBLICATION)+ " : " +this.book.getPublication());
+        publishingDate.setText(FormatAttributeName.formatAttribute(Book.DATEOFPUBLICATION) + " : " + this.book.getDateOfPublication(true));
+        price.setText(FormatAttributeName.formatAttribute(Book.PRICE)+ " : " + this.book.getPrice());
     }
 
     private GridBagConstraints getConstraints(GridBagConstraints constraints, int gridx, int gridy) {

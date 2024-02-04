@@ -2,7 +2,6 @@ package assignment1.controller;
 
 import assignment1.model.Book;
 import assignment1.ui.BookInfoPanel;
-import assignment1.ui.DashboardFrame;
 
 import java.awt.event.*;
 
@@ -24,7 +23,7 @@ public class BookInfoPanelActions extends MouseAdapter implements ActionListener
             bookInfoPanel.showUpdate();
         } else if (e.getSource()==bookInfoPanel.updateBtn) {
             bookInfoPanel.formPanel.updateBookInfo();
-            bookInfoPanel.formPanel.currentTarget.update();
+            bookInfoPanel.formPanel.currentTarget.render();
             bookInfoPanel.main.library.update();
             bookInfoPanel.showEdit();
         }

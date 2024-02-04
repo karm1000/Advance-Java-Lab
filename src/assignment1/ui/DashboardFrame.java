@@ -10,7 +10,7 @@ import java.io.IOException;
 public class DashboardFrame extends BookStoreFrame {
     public AllBooksPanel allBooksPanel;
     public BookInfoPanel bookInfoPanel;
-    public FileIO library;
+    public BooksLibrary library;
     DashboardFrame() throws IOException {
         super();
         init();
@@ -19,7 +19,7 @@ public class DashboardFrame extends BookStoreFrame {
 
     private void init(){
         try{
-            this.library = new BooksLibrary();
+            this.library = new BooksLibrary(new FileIO());
         }catch (IOException e){
             System.out.println(e);
         }
