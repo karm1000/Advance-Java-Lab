@@ -1,6 +1,7 @@
 package assignment1.ui;
 
 import assignment1.model.BooksLibrary;
+import assignment1.model.DataBaseIO;
 import assignment1.model.FileIO;
 //import assignment1.model.DataBooksLibrary;
 
@@ -19,7 +20,7 @@ public class DashboardFrame extends BookStoreFrame {
 
     private void init(){
         try{
-            this.library = new BooksLibrary(new FileIO());
+            this.library = new BooksLibrary(new DataBaseIO());
         }catch (IOException e){
             System.out.println(e);
         }

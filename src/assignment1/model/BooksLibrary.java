@@ -24,44 +24,44 @@ public class BooksLibrary implements BasicLibrary,Serializable {
     @Override
     public void addBook(Book book) {
         data.add(book);
-        store.writeIntoFile();
+        store.addBook(book);
     }
 
     @Override
     public void addAllBooks(Book[] books) {
         data.addAll(Arrays.stream(books).toList());
-        store.writeIntoFile();
+        store.addAllBooks(books);
 
     }
 
     public void addAllBooks(Collection<Book> books){
         data.addAll(books);
-        store.writeIntoFile();
+        store.addAllBooks(books);
     }
 
 
     @Override
     public void removeBook(Book book) {
         data.remove(book);
-        store.writeIntoFile();
+        store.removeBook(book);
     }
 
     @Override
     public void removeAllBooks() {
         data.clear();
-        store.writeIntoFile();
+        store.removeAllBooks();
     }
 
     @Override
     public void removeAllBooks(Book[] books) {
         data.removeAll(Arrays.stream(books).toList());
-        store.writeIntoFile();
+        store.removeAllBooks(books);
     }
 
     @Override
     public void removeAllBooks(Collection<Book> books) {
         data.removeAll(books);
-        store.writeIntoFile();
+        store.removeAllBooks(books);
     }
 
     @Override
@@ -79,8 +79,9 @@ public class BooksLibrary implements BasicLibrary,Serializable {
         return data;
     }
 
-    public void update(){
-        store.writeIntoFile();
+    public void updateBook(Book book){
+
+        store.updateBook(book);
     }
 
     @Override

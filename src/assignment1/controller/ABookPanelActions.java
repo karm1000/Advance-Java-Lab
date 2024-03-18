@@ -44,9 +44,12 @@ public class ABookPanelActions extends MouseAdapter implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==ref.removeBook){
-            main.library.removeBook(ref.book);
-            System.out.println(main.library.getAllBooks());
-            main.allBooksPanel.removeBook(ref.book);
+            int choice = JOptionPane.showConfirmDialog(null,"Do You Want to delete "+ref.book.getBookName(),"Deletion",JOptionPane.WARNING_MESSAGE);
+            if(choice == JOptionPane.YES_OPTION){
+                main.library.removeBook(ref.book);
+                System.out.println(main.library.getAllBooks());
+                main.allBooksPanel.removeBook(ref.book);
+            }
         }
     }
 }

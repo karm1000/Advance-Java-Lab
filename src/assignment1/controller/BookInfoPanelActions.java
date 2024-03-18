@@ -13,9 +13,11 @@ public class BookInfoPanelActions extends MouseAdapter implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==bookInfoPanel.addBtn){
-            Book aBook = bookInfoPanel.formPanel.addBook();
-            bookInfoPanel.main.allBooksPanel.addBook(aBook);
-            bookInfoPanel.showEdit();
+            Book[] aBook = bookInfoPanel.formPanel.addBook();
+            if(aBook.length!=0){
+                bookInfoPanel.main.allBooksPanel.addBook(aBook[0]);
+                bookInfoPanel.showEdit();
+            }
         } else if (e.getSource()==bookInfoPanel.newBtn) {
             bookInfoPanel.formPanel.clearAll();
             bookInfoPanel.showAdd();
@@ -24,7 +26,7 @@ public class BookInfoPanelActions extends MouseAdapter implements ActionListener
         } else if (e.getSource()==bookInfoPanel.updateBtn) {
             bookInfoPanel.formPanel.updateBookInfo();
             bookInfoPanel.formPanel.currentTarget.render();
-            bookInfoPanel.main.library.update();
+//            bookInfoPanel.main.library.update();
             bookInfoPanel.showEdit();
         }
     }

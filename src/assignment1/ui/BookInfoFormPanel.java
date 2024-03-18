@@ -5,6 +5,7 @@ import assignment1.util.FormatAttributeName;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.format.DateTimeParseException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
@@ -55,12 +56,20 @@ public class BookInfoFormPanel extends JPanel{
 
     public void updateBookInfo() {
         try{
-
             FieldPanel fpanel;
             for(String key:Book.attributeList){
                 fpanel = fields.get(key);
+                if(fpanel.textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null,fpanel.label.getText()+" must not ne null","waring",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
                 bookInfo.set(key,fpanel.textField.getText());
             }
+            main.library.updateBook(bookInfo);
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Price cannot be negative and must be float value","warning",JOptionPane.WARNING_MESSAGE);
+        }catch (DateTimeParseException e){
+            JOptionPane.showMessageDialog(null,"Date Format dd-mm-yyyy","warning",JOptionPane.WARNING_MESSAGE);
         }catch (Exception e){
             System.out.println(e);
         }
@@ -93,20 +102,31 @@ public class BookInfoFormPanel extends JPanel{
         }
     }
 
-    public Book addBook(){
-        bookInfo = new Book();
+    public Book[] addBook(){
+//        bookInfo = new Book(fields.get(Book.BOOKNAME).textField.getText(),fields.get(Book.AUTHORNAMES).textField.getText());
         try{
             FieldPanel fpanel;
             for(String key:Book.attributeList){
                 fpanel = fields.get(key);
+                if(fpanel.textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null,fpanel.label.getText()+" must not ne null","waring",JOptionPane.WARNING_MESSAGE);
+                    return new Book[]{};
+                }
                 bookInfo.set(key,fpanel.textField.getText());
             }
-        }catch (Exception e){
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Price cannot be negative and must be float value","warning",JOptionPane.WARNING_MESSAGE);
+            return new Book[]{};
+        }catch (DateTimeParseException e){
+            JOptionPane.showMessageDialog(null,"Date Format dd-mm-yyyy","warning",JOptionPane.WARNING_MESSAGE);
+            return new Book[]{};
+        }
+        catch (Exception e){
             System.out.println(e);
         }
         main.library.addBook(bookInfo);
 //        System.out.println(bookInfo);
-        return bookInfo;
+        return new Book[]{bookInfo};
     }
 
     public void setCurrentTarget(ABookPanel panel){

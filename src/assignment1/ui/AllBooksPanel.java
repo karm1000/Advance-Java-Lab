@@ -124,6 +124,7 @@ public class AllBooksPanel extends JPanel {
             booksContainer.add(noBooksLabel);
         }
         booksContainer.repaint();
+        booksContainer.revalidate();
     }
 
     public void filterBooks(HashMap<String,String> queries){

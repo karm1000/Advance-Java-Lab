@@ -54,4 +54,44 @@ public class FileIO implements DataStore {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void addBook(Book book) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void addAllBooks(Book[] book) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void addAllBooks(Collection<Book> book) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void removeBook(Book book) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void removeAllBooks() {
+        writeIntoFile();
+    }
+
+    @Override
+    public void removeAllBooks(Book[] books) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void removeAllBooks(Collection<Book> books) {
+        writeIntoFile();
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        writeIntoFile();
+    }
 }

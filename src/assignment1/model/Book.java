@@ -8,14 +8,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class Book implements Serializable, Comparable<Book> {
-    private String bookId = "";
+public class Book implements Serializable, Comparable<Book>,Cloneable {
+    private static int nextId = 1;
+    private int bookId;
     private String bookName = "";
     private List<String> authorNames = new ArrayList<>();
     private String description = "";
     private String publication = "";
     private ZonedDateTime dateOfPublication = ZonedDateTime.now();
     private float price = 0.0f;
+    public static final String BOOKID = "bookId";
     public static final String BOOKNAME = "bookName";
     public static final String AUTHORNAMES = "authorNames";
     public static final String DESCRIPTION = "description";
@@ -26,15 +28,25 @@ public class Book implements Serializable, Comparable<Book> {
     public static final String[] attributeList = {BOOKNAME,AUTHORNAMES,DESCRIPTION,PUBLICATION,DATEOFPUBLICATION,PRICE};
 //    private HashMap<String,String> map = new HashMap<>();
     public Book(){
+//        bookId = nextId++;
+    }
 
+    public Book(int bookId){
+        this.bookId = bookId;
+    }
+    public Book(String bookName){
+        this();
+        setBookName(bookName);
     }
 
     public Book(String bookName, String authorName){
+        this();
         setBookName(bookName);
         setAuthorNames(authorName);
     }
 
     public Book(String bookName,List<String> authorNames){
+        this();
         setBookName(bookName);
         setAuthorNames(authorNames);
     }
@@ -56,6 +68,9 @@ public class Book implements Serializable, Comparable<Book> {
         setPrice(price);
     }
 
+    public void setBookId(int i){
+        this.bookId = i;
+    }
     public void setBookName(String bookName) {
         this.bookName = bookName;
 //        map.put(BOOKNAME,bookName);
@@ -98,17 +113,17 @@ public class Book implements Serializable, Comparable<Book> {
 //        map.put(DATEOFPUBLICATION,getDateOfPublication(true));
     }
 
-    public void setPrice(float price) throws Exception{
-        if(price<0) throw new Exception("No Negative Value allowed as price");
+    public void setPrice(float price) throws NumberFormatException{
+        if(price<0) throw new NumberFormatException("No Negative Value allowed as price");
         this.price = price;
 //        map.put(PRICE,String.valueOf(price));
     }
 
-    public void setPrice(String val) throws Exception {
+    public void setPrice(String val) throws NumberFormatException {
         setPrice(Float.parseFloat(val));
     }
 
-    public void set(String key,String value) throws Exception {
+    public void set(String key,String value) throws DateTimeParseException,NumberFormatException {
         switch (key){
             case BOOKNAME -> {
                 setBookName(value);
@@ -129,6 +144,9 @@ public class Book implements Serializable, Comparable<Book> {
                 setDescription(value);
             }
         }
+    }
+    public int getBookId(){
+        return bookId;
     }
     public String getBookName() {
         return bookName;
