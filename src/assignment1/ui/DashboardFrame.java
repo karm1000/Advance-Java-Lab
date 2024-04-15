@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class DashboardFrame extends BookStoreFrame {
+//    javax.s
     public AllBooksPanel allBooksPanel;
     public BookInfoPanel bookInfoPanel;
     public BooksLibrary library;

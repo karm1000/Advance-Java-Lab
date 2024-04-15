@@ -6,7 +6,7 @@ import java.util.*;
 
 public class FileIO implements DataStore {
 //    File dataFile = "src/assignment1/data/Library.dat";
-    File dataFile  = new File("src/assignment1/data/Library.dat");;
+    File dataFile  = new File("src/assignment1/data/Library.dat");
     TreeSet<Book> data = new TreeSet<>();
     public FileIO(){init();}
 
